@@ -70,7 +70,7 @@
                         return;
                     }
                     try {
-                        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/me`, { headers: { Authorization: `Bearer ${token}` } });
+                        const res = await fetch('https://local-food-backend.onrender.com/api/auth/me', { headers: { Authorization: `Bearer ${token}` } });
                         if (!res.ok) setError('Invalid or expired token');
                     } catch (e) {
                         setError('Invalid or expired token');
@@ -130,7 +130,7 @@
                     // images
                     images.forEach(file => formData.append('images', file));
 
-                    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/foods`, {
+                    const res = await fetch('https://local-food-backend.onrender.com/api/foods', {
                         method: 'POST',
                         headers: {
                             Authorization: `Bearer ${token}`

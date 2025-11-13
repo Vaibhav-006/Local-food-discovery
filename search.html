@@ -270,7 +270,7 @@
                     showLoading(true);
                     const apiUrl = window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1')
                         ? 'http://localhost:5000/api/foods'
-                        : `${process.env.NEXT_PUBLIC_API_URL}/api/foods`;
+                        : 'https://local-food-backend.onrender.com/api/foods';
                     
                     console.log('Fetching foods from:', apiUrl);
                     const response = await fetch(apiUrl);
