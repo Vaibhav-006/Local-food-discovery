@@ -224,7 +224,7 @@
                     // Call the working simple-login endpoint
                     const apiUrl = window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1')
                         ? 'http://localhost:5000/api/simple-login'
-                        : '/api/simple-login';
+                        : 'https://local-food-backend.onrender.com/api/simple-login';
                     
                     fetch(apiUrl, {
                         method: 'POST',

@@ -405,13 +405,16 @@
                         newsletter: document.getElementById('newsletter').checked
                     };
 
-                    const response = await fetch('http://localhost:5000/api/auth/register', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify(formData)
-                    });
+                    const response = await fetch(
+  window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1')
+    ? "http://localhost:10000/api/auth/register"
+    : "https://local-food-backend.onrender.com/api/auth/register",
+  {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(formData),
+  }
+);
 
                     const data = await response.json();
 
