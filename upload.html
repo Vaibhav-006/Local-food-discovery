@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Food - FoodDiscover</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body class="bg-gray-50">
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center space-x-2 text-2xl font-bold text-orange-600 hover:text-orange-700 transition-colors">
+                        <i class="fas fa-utensils"></i>
+                        <span>FoodDiscover</span>
+                    </a>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="search.html" class="flex items-center space-x-2 text-gray-700 hover:text-orange-600 transition-colors">
+                        <i class="fas fa-search"></i>
+                        <span>Discover</span>
+                    </a>
+                    <a href="upload.html" class="flex items-center space-x-2 text-orange-600 font-semibold">
+                        <i class="fas fa-plus"></i>
+                        <span>Upload</span>
+                    </a>
+                    <a href="dashboard.html" class="flex items-center space-x-2 text-gray-700 hover:text-orange-600 transition-colors">
+                        <i class="fas fa-user"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div id="root" class="max-w-5xl mx-auto p-6 sm:p-10"></div>
+
+    <script type="text/babel">
+        const { useState, useMemo, useEffect } = React;
+
+        function UploadForm() {
+            const [title, setTitle] = useState('');
+            const [cuisineType, setCuisineType] = useState('');
+            const [description, setDescription] = useState('');
+            const [vendorName, setVendorName] = useState('');
+            const [address, setAddress] = useState('');
+            const [city, setCity] = useState('');
+            const [price, setPrice] = useState('');
+            const [priceRange, setPriceRange] = useState('₹₹');
+            const [tagsText, setTagsText] = useState('');
+            const [images, setImages] = useState([]);
+            const [previews, setPreviews] = useState([]);
+            const [dietary, setDietary] = useState({ vegetarian: false, vegan: false, glutenfree: false, halal: false, kosher: false });
+            const [nutrition, setNutrition] = useState({ calories: '', protein: '', carbs: '', fat: '', fiber: '' });
+            const [submitting, setSubmitting] = useState(false);
+            const [message, setMessage] = useState('');
+            const [error, setError] = useState('');
+
+            const token = useMemo(() => localStorage.getItem('token') || '', []);
+
+            useEffect(() => {
+                async function checkToken() {
+                    if (!token) {
+                        setError('Invalid or expired token');
+                        return;
+                    }
+                    try {
+                        const res = await fetch('/api/auth/me', { headers: { Authorization: `Bearer ${token}` } });
+                        if (!res.ok) setError('Invalid or expired token');
+                    } catch (e) {
+                        setError('Invalid or expired token');
+                    }
+                }
+                checkToken();
+            }, [token]);
+
+            function onFileChange(e) {
+                const files = Array.from(e.target.files || []).slice(0, 5);
+                setImages(files);
+                const nextPreviews = [];
+                files.forEach(file => {
+                    const reader = new FileReader();
+                    reader.onload = ev => {
+                        nextPreviews.push(ev.target.result);
+                        if (nextPreviews.length === files.length) setPreviews(nextPreviews);
+                    };
+                    reader.readAsDataURL(file);
+                });
+                if (files.length === 0) setPreviews([]);
+            }
+
+            async function onSubmit(e) {
+                e.preventDefault();
+                setSubmitting(true);
+                setMessage('');
+                setError('');
+
+                if (!token) {
+                    setSubmitting(false);
+                    setError('Please login to upload.');
+                    return;
+                }
+
+                if (!images || images.length === 0) {
+                    setSubmitting(false);
+                    setError('At least one image is required.');
+                    return;
+                }
+
+                try {
+                    const formData = new FormData();
+                    formData.append('title', title);
+                    formData.append('cuisineType', cuisineType);
+                    formData.append('description', description);
+                    formData.append('vendorName', vendorName);
+                    formData.append('address', address);
+                    formData.append('city', city);
+                    formData.append('price', price);
+                    formData.append('priceRange', priceRange);
+                    formData.append('tags', tagsText);
+                    // dietary flags
+                    Object.entries(dietary).forEach(([k, v]) => formData.append(k, String(v)));
+                    // nutrition
+                    Object.entries(nutrition).forEach(([k, v]) => { if (v !== '') formData.append(k, String(v)); });
+                    // images
+                    images.forEach(file => formData.append('images', file));
+
+                    const res = await fetch('/api/foods', {
+                        method: 'POST',
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        },
+                        body: formData
+                    });
+
+                    const data = await res.json();
+                    if (!res.ok) {
+                        if (res.status === 401) setError('Invalid or expired token');
+                        throw new Error(data.message || 'Upload failed');
+                    }
+
+                    setMessage('Food uploaded successfully!');
+                    setTitle('');
+                    setCuisineType('');
+                    setDescription('');
+                    setVendorName('');
+                    setAddress('');
+                    setCity('');
+                    setPrice('');
+                    setPriceRange('₹₹');
+                    setTagsText('');
+                    setImages([]);
+                    setPreviews([]);
+                    setDietary({ vegetarian: false, vegan: false, glutenfree: false, halal: false, kosher: false });
+                    setNutrition({ calories: '', protein: '', carbs: '', fat: '', fiber: '' });
+                } catch (err) {
+                    setError(err.message);
+                } finally {
+                    setSubmitting(false);
+                }
+            }
+
+            return (
+                <div className="bg-white rounded-xl shadow p-8">
+                    <div className="text-center mb-8">
+                        <div className="mx-auto w-16 h-16 rounded-full bg-orange-100 flex items-center justify-center mb-4">
+                            <i className="fas fa-upload text-2xl text-orange-600"></i>
+                        </div>
+                        <h1 className="text-3xl font-bold">Share Your Food Discovery</h1>
+                        <p className="text-gray-600 mt-2">Upload photos and details of amazing food you've discovered</p>
+                    </div>
+                    {message && <div className="mb-4 p-3 rounded bg-green-50 text-green-700">{message}</div>}
+                    {error && <div className="mb-4 p-3 rounded bg-red-50 text-red-700">{error}</div>}
+                    <form onSubmit={onSubmit} className="space-y-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label className="block text-sm font-medium mb-1">Food Name *</label>
+                                <input value={title} onChange={e => setTitle(e.target.value)} required className="w-full border rounded px-3 py-2" placeholder="Enter the name of the dish" />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium mb-1">Cuisine Type *</label>
+                                <select value={cuisineType} onChange={e => setCuisineType(e.target.value)} required className="w-full border rounded px-3 py-2">
+                                    <option value="">Select cuisine type</option>
+                                    <option>Italian</option>
+                                    <option>Asian</option>
+                                    <option>Mexican</option>
+                                    <option>American</option>
+                                    <option>Mediterranean</option>
+                                    <option>Desserts</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium mb-1">Description *</label>
+                            <textarea value={description} onChange={e => setDescription(e.target.value)} required rows="4" className="w-full border rounded px-3 py-2" placeholder="Describe the food, taste, texture, and what makes it special..." />
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div>
+                                <label className="block text-sm font-medium mb-1">Vendor Name *</label>
+                                <input value={vendorName} onChange={e => setVendorName(e.target.value)} required className="w-full border rounded px-3 py-2" placeholder="Restaurant, food truck, or vendor name" />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium mb-1">Address *</label>
+                                <input value={address} onChange={e => setAddress(e.target.value)} required className="w-full border rounded px-3 py-2" placeholder="Enter the full address" />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium mb-1">City *</label>
+                                <input value={city} onChange={e => setCity(e.target.value)} required className="w-full border rounded px-3 py-2" placeholder="Enter the city name" />
+                            </div>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label className="block text-sm font-medium mb-1">Price *</label>
+                                <input type="number" min="0" step="0.01" value={price} onChange={e => setPrice(e.target.value)} required className="w-full border rounded px-3 py-2" placeholder="Enter the price in rupees" />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium mb-1">Price Range *</label>
+                                <select value={priceRange} onChange={e => setPriceRange(e.target.value)} required className="w-full border rounded px-3 py-2">
+                                    <option value="₹">₹ (Budget-friendly)</option>
+                                    <option value="₹₹">₹₹ (Moderate)</option>
+                                    <option value="₹₹₹">₹₹₹ (Expensive)</option>
+                                    <option value="₹₹₹₹">₹₹₹₹ (Very Expensive)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium mb-1">Food Images * (Max 5)</label>
+                            <input type="file" accept="image/*" multiple onChange={onFileChange} required className="w-full" />
+                            {previews.length > 0 && (
+                                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 mt-3">
+                                    {previews.map((src, i) => (
+                                        <img key={i} src={src} alt={`Preview ${i+1}`} className="rounded h-28 w-full object-cover" />
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium mb-2">Dietary Information</label>
+                            <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+                                {Object.keys(dietary).map(key => (
+                                    <label key={key} className="inline-flex items-center space-x-2 text-sm text-gray-700">
+                                        <input type="checkbox" checked={dietary[key]} onChange={e => setDietary({ ...dietary, [key]: e.target.checked })} />
+                                        <span className="capitalize">{key}</span>
+                                    </label>
+                                ))}
+                            </div>
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium mb-2">Nutrition Information (Optional)</label>
+                            <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+                                {['calories','protein','carbs','fat','fiber'].map(key => (
+                                    <div key={key}>
+                                        <label className="block text-xs text-gray-500 mb-1 capitalize">{key} {key==='calories' ? '' : '(g)'}</label>
+                                        <input type="number" min="0" value={nutrition[key]} onChange={e => setNutrition({ ...nutrition, [key]: e.target.value })} className="w-full border rounded px-3 py-2" placeholder={key==='calories' ? 'Cal' : 'g'} />
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium mb-1">Tags (comma separated)</label>
+                            <input value={tagsText} onChange={e => setTagsText(e.target.value)} className="w-full border rounded px-3 py-2" placeholder="italian, pizza, veggie" />
+                        </div>
+                        <div className="pt-2 text-center">
+                            <button disabled={submitting} className="bg-orange-600 text-white px-8 py-3 rounded-lg hover:bg-orange-700 disabled:opacity-60 font-semibold">
+                                {submitting ? 'Uploading...' : 'Upload Food Discovery'}
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<UploadForm />);
+    </script>
+</body>
+</html>
+
+

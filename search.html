@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discover Food - FoodDiscover</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center space-x-2 text-2xl font-bold text-orange-600 hover:text-orange-700 transition-colors">
+                        <i class="fas fa-utensils"></i>
+                        <span>FoodDiscover</span>
+                    </a>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="search.html" class="flex items-center space-x-2 text-orange-600 font-semibold">
+                        <i class="fas fa-search"></i>
+                        <span>Discover</span>
+                    </a>
+                    <a href="upload.html" class="flex items-center space-x-2 text-gray-700 hover:text-orange-600 transition-colors">
+                        <i class="fas fa-plus"></i>
+                        <span>Upload</span>
+                    </a>
+                    <a href="ai-recommendations.html" class="text-gray-700 hover:text-orange-600 transition-colors">
+                        <span>AI Recommendations</span>
+                    </a>
+                    <a href="dashboard.html" class="flex items-center space-x-2 text-gray-700 hover:text-orange-600 transition-colors">
+                        <i class="fas fa-user"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="login.html" class="flex items-center space-x-2 text-gray-700 hover:text-orange-600 transition-colors">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Login</span>
+                    </a>
+                    <a href="register.html" class="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition-colors">
+                        <span>Sign Up</span>
+                    </a>
+                </div>
+                
+                <div class="md:hidden">
+                    <button id="nav-toggle" class="text-gray-700 hover:text-orange-600 focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Mobile menu -->
+            <div id="nav-menu" class="hidden md:hidden pb-4">
+                <div class="flex flex-col space-y-4">
+                    <a href="search.html" class="flex items-center space-x-2 text-orange-600 font-semibold">
+                        <i class="fas fa-search"></i>
+                        <span>Discover</span>
+                    </a>
+                    <a href="upload.html" class="flex items-center space-x-2 text-gray-700 hover:text-orange-600 transition-colors">
+                        <i class="fas fa-plus"></i>
+                        <span>Upload</span>
+                    </a>
+                    <a href="ai-recommendations.html" class="text-gray-700 hover:text-orange-600 transition-colors">
+                        <span>AI Recommendations</span>
+                    </a>
+                    <a href="dashboard.html" class="flex items-center space-x-2 text-gray-700 hover:text-orange-600 transition-colors">
+                        <i class="fas fa-user"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="login.html" class="flex items-center space-x-2 text-gray-700 hover:text-orange-600 transition-colors">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Login</span>
+                    </a>
+                    <a href="register.html" class="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition-colors text-center">
+                        <span>Sign Up</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Search Section -->
+    <div class="py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Search Header -->
+            <div class="text-center mb-8">
+                <h1 class="text-4xl font-bold text-gray-900 mb-4">Discover Amazing Food</h1>
+                <p class="text-xl text-gray-600">Find the best local cuisine in your area</p>
+            </div>
+
+            <!-- Search Bar -->
+            <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                <form id="search-form">
+                    <div class="flex flex-col lg:flex-row gap-4 mb-6">
+                        <div class="flex-1 relative">
+                            <i class="fas fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                            <input
+                                type="text"
+                                id="search-input"
+                                class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                                placeholder="Search for food name, description, or city..."
+                                value=""
+                            >
+                        </div>
+                        <button type="button" id="filter-toggle" class="px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors flex items-center justify-center">
+                            <i class="fas fa-filter mr-2"></i>
+                            <span>Filters</span>
+                        </button>
+                        <button type="submit" class="px-6 py-3 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition-colors">
+                            Search
+                        </button>
+                        <button type="button" class="px-6 py-3 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors" id="clear-btn">
+                            Show All
+                        </button>
+                    </div>
+
+                    <!-- Advanced Filters -->
+                    <div id="filter-section" class="hidden border-t border-gray-200 pt-6">
+                        <div class="grid md:grid-cols-3 gap-4 mb-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">City</label>
+                                <input
+                                    type="text"
+                                    id="city-filter"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                                    placeholder="Enter city name..."
+                                >
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Vendor/Location</label>
+                                <input
+                                    type="text"
+                                    id="vendor-filter"
+                                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                                    placeholder="Search by vendor name or address..."
+                                >
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Cuisine</label>
+                                <select id="cuisine-filter" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
+                                    <option value="">All Cuisines</option>
+                                    <option value="italian">Italian</option>
+                                    <option value="asian">Asian</option>
+                                    <option value="mexican">Mexican</option>
+                                    <option value="american">American</option>
+                                    <option value="mediterranean">Mediterranean</option>
+                                    <option value="desserts">Desserts</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Price Range</label>
+                                <select id="price-filter" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
+                                    <option value="">All Prices</option>
+                                    <option value="₹">₹ (Under ₹500)</option>
+                                    <option value="₹₹">₹₹ (₹500-₹1000)</option>
+                                    <option value="₹₹₹">₹₹₹ (₹1000-₹2000)</option>
+                                    <option value="₹₹₹₹">₹₹₹₹ (Over ₹2000)</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Minimum Rating</label>
+                                <select id="rating-filter" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500">
+                                    <option value="">Any Rating</option>
+                                    <option value="4">4+ Stars</option>
+                                    <option value="3">3+ Stars</option>
+                                    <option value="2">2+ Stars</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="flex justify-end space-x-4">
+                            <button type="button" class="px-6 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50 transition-colors" id="reset-filters">
+                                Reset Filters
+                            </button>
+                            <button type="button" class="px-6 py-2 bg-orange-600 text-white rounded-md hover:bg-orange-700 transition-colors" id="apply-filters">
+                                Apply Filters
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Search Results -->
+            <div>
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900">Search Results</h2>
+                        <div id="filter-indicator" class="hidden mt-2">
+                            <span class="text-sm text-orange-600 font-medium">
+                                <i class="fas fa-filter"></i> Active Filters Applied
+                            </span>
+                        </div>
+                    </div>
+                    <p class="text-gray-600" id="results-count">12 food items found</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="food-results">
+                    <!-- Food cards will be populated here -->
+                </div>
+
+                <!-- Loading State -->
+                <div class="hidden text-center py-12" id="loading-state">
+                    <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-orange-600 mb-4"></div>
+                    <p class="text-gray-600">Searching for delicious food...</p>
+                </div>
+
+                <!-- No Results State -->
+                <div class="hidden text-center py-12" id="no-results">
+                    <i class="fas fa-search text-6xl text-gray-300 mb-4"></i>
+                    <h3 class="text-xl font-semibold text-gray-700 mb-2">No food found</h3>
+                    <p class="text-gray-500">Try adjusting your search criteria or filters</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <h3 class="text-2xl font-bold text-orange-400 mb-4">FoodDiscover</h3>
+                    <p class="text-gray-300">Your ultimate platform for discovering amazing local food.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="search.html" class="text-gray-300 hover:text-orange-400 transition-colors">Discover Food</a></li>
+                        <li><a href="upload.html" class="text-gray-300 hover:text-orange-400 transition-colors">Upload Food</a></li>
+                        <li><a href="ai-recommendations.html" class="text-gray-300 hover:text-orange-400 transition-colors">AI Recommendations</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Account</h4>
+                    <ul class="space-y-2">
+                        <li><a href="login.html" class="text-gray-300 hover:text-orange-400 transition-colors">Login</a></li>
+                        <li><a href="register.html" class="text-gray-300 hover:text-orange-400 transition-colors">Register</a></li>
+                        <li><a href="dashboard.html" class="text-gray-300 hover:text-orange-400 transition-colors">Dashboard</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 pt-8 text-center">
+                <p class="text-gray-400">&copy; 2024 FoodDiscover. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Search page specific functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchForm = document.getElementById('search-form');
+            const searchInput = document.getElementById('search-input');
+            const filterToggle = document.getElementById('filter-toggle');
+            const filterSection = document.getElementById('filter-section');
+            const clearBtn = document.getElementById('clear-btn');
+            const resetFiltersBtn = document.getElementById('reset-filters');
+            const applyFiltersBtn = document.getElementById('apply-filters');
+            const foodResults = document.getElementById('food-results');
+            const loadingState = document.getElementById('loading-state');
+            const noResults = document.getElementById('no-results');
+
+            // Real food data from API
+            let allFoods = [];
+
+            // Load foods from API
+            async function loadFoods() {
+                try {
+                    showLoading(true);
+                    const apiUrl = window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1')
+                        ? 'http://localhost:5000/api/foods'
+                        : '/api/foods';
+                    
+                    console.log('Fetching foods from:', apiUrl);
+                    const response = await fetch(apiUrl);
+                    const data = await response.json();
+                    
+                    console.log('API Response:', data);
+                    
+                    if (data.success) {
+                        allFoods = data.foods || [];
+                        console.log(`Loaded ${allFoods.length} foods`);
+                        displayFoodResults(allFoods);
+                    } else {
+                        console.error('Failed to load foods:', data.message);
+                        displayFoodResults([]);
+                    }
+                } catch (error) {
+                    console.error('Error loading foods:', error);
+                    displayFoodResults([]);
+                    showNotification('Failed to load foods. Please try again later.', 'error');
+                } finally {
+                    showLoading(false);
+                }
+            }
+
+            // Initialize with real data
+            loadFoods();
+
+            // Filter toggle
+            filterToggle.addEventListener('click', function() {
+                filterSection.classList.toggle('hidden');
+            });
+
+            // Search form submission
+            searchForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                performSearch();
+            });
+
+            // Clear search
+            clearBtn.addEventListener('click', function() {
+                searchInput.value = '';
+                resetAllFilters();
+                displayFoodResults(allFoods);
+            });
+
+            // Reset filters
+            resetFiltersBtn.addEventListener('click', function() {
+                resetAllFilters();
+                performSearch(); // Re-search with cleared filters
+            });
+
+            // Apply filters
+            applyFiltersBtn.addEventListener('click', function() {
+                performSearch();
+            });
+
+            // Auto-apply filters when values change (optional - remove if too aggressive)
+            const filterInputs = ['city-filter', 'vendor-filter', 'cuisine-filter', 'price-filter'];
+            filterInputs.forEach(id => {
+                const element = document.getElementById(id);
+                if (element) {
+                    element.addEventListener('change', function() {
+                        console.log(`Filter changed: ${id} = ${this.value}`);
+                        // Uncomment the line below if you want auto-filter on change
+                        // performSearch();
+                    });
+                }
+            });
+
+            function hasActiveFilters() {
+                const city = document.getElementById('city-filter').value.trim();
+                const vendor = document.getElementById('vendor-filter').value.trim();
+                const cuisine = document.getElementById('cuisine-filter').value;
+                const price = document.getElementById('price-filter').value;
+                const rating = document.getElementById('rating-filter').value;
+                return !!(city || vendor || cuisine || price || rating);
+            }
+
+            function updateFilterIndicator() {
+                const filterIndicator = document.getElementById('filter-indicator');
+                if (filterIndicator) {
+                    if (hasActiveFilters()) {
+                        filterIndicator.classList.remove('hidden');
+                    } else {
+                        filterIndicator.classList.add('hidden');
+                    }
+                }
+            }
+
+            function performSearch() {
+                const query = searchInput.value.trim();
+                const city = document.getElementById('city-filter').value.trim();
+                const vendor = document.getElementById('vendor-filter').value.trim();
+                const cuisine = document.getElementById('cuisine-filter').value;
+                const price = document.getElementById('price-filter').value;
+                const rating = document.getElementById('rating-filter').value;
+
+                console.log('Performing search with:', { 
+                    query, city, vendor, cuisine, price, rating,
+                    totalFoods: allFoods.length 
+                });
+
+                // Update filter indicator
+                updateFilterIndicator();
+
+                // Show loading
+                showLoading(true);
+
+                // Simulate search delay for better UX
+                setTimeout(() => {
+                    let filteredResults = allFoods.filter(food => {
+                        let matches = true;
+
+                        // Search query - apply if provided
+                        if (query) {
+                            const queryLower = query.toLowerCase();
+                            const hasMatch = (
+                                (food.title && food.title.toLowerCase().includes(queryLower)) ||
+                                (food.description && food.description.toLowerCase().includes(queryLower)) ||
+                                (food.city && food.city.toLowerCase().includes(queryLower)) ||
+                                (food.vendorName && food.vendorName.toLowerCase().includes(queryLower)) ||
+                                (food.tags && food.tags.some(tag => tag && tag.toLowerCase().includes(queryLower)))
+                            );
+                            matches = matches && hasMatch;
+                        }
+
+                        // City filter - apply if provided
+                        if (city) {
+                            const cityLower = city.toLowerCase();
+                            const cityMatch = food.city && food.city.toLowerCase().includes(cityLower);
+                            matches = matches && cityMatch;
+                            console.log(`Food "${food.title}" city check: ${food.city} includes "${city}" = ${cityMatch}`);
+                        }
+
+                        // Vendor filter - apply if provided
+                        if (vendor) {
+                            const vendorLower = vendor.toLowerCase();
+                            const vendorMatch = (
+                                (food.vendorName && food.vendorName.toLowerCase().includes(vendorLower)) ||
+                                (food.address && food.address.toLowerCase().includes(vendorLower))
+                            );
+                            matches = matches && vendorMatch;
+                            console.log(`Food "${food.title}" vendor check: ${food.vendorName} or ${food.address} includes "${vendor}" = ${vendorMatch}`);
+                        }
+
+                        // Cuisine filter - apply if provided
+                        if (cuisine) {
+                            const cuisineMatch = food.cuisineType && food.cuisineType.toLowerCase() === cuisine.toLowerCase();
+                            matches = matches && cuisineMatch;
+                            console.log(`Food "${food.title}" cuisine check: ${food.cuisineType} === "${cuisine}" = ${cuisineMatch}`);
+                        }
+
+                        // Price filter - apply if provided
+                        if (price) {
+                            const priceMatch = food.priceRange === price;
+                            matches = matches && priceMatch;
+                            console.log(`Food "${food.title}" price check: ${food.priceRange} === "${price}" = ${priceMatch}`);
+                        }
+
+                        // Rating filter (skip for now as we don't have ratings yet)
+                        // if (rating) {
+                        //     matches = matches && food.rating >= parseInt(rating);
+                        // }
+
+                        console.log(`Food "${food.title}" final match: ${matches}`);
+                        return matches;
+                    });
+
+                    console.log(`Filtered ${filteredResults.length} results from ${allFoods.length} total foods`);
+                    displayFoodResults(filteredResults);
+                    showLoading(false);
+                }, 300); // Reduced delay
+            }
+
+            function displayFoodResults(foods) {
+                if (foods.length === 0) {
+                    foodResults.classList.add('hidden');
+                    noResults.classList.remove('hidden');
+                    document.getElementById('results-count').textContent = '0 food items found';
+                    return;
+                }
+
+                noResults.classList.add('hidden');
+                foodResults.classList.remove('hidden');
+                document.getElementById('results-count').textContent = `${foods.length} food items found`;
+
+                foodResults.innerHTML = foods.map(food => {
+                    // Format date
+                    const date = new Date(food.createdAt).toLocaleDateString();
+                    
+                    // Get first image or placeholder
+                    let imageUrl = food.images && food.images.length > 0 ? food.images[0] : 'https://via.placeholder.com/400x300?text=No+Image';
+                    
+                    // Handle relative image paths
+                    if (imageUrl && imageUrl.startsWith('/uploads/')) {
+                        const baseUrl = window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1')
+                            ? 'http://localhost:5000'
+                            : '';
+                        imageUrl = baseUrl + imageUrl;
+                    }
+                    
+                    // Format price display
+                    const priceDisplay = food.price ? `₹${food.price}` : food.priceRange;
+                    
+                    // Format tags
+                    const tagsDisplay = food.tags && food.tags.length > 0 ? food.tags.join(', ') : 'No tags';
+                    
+                    return `
+                        <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow" data-food-id="${food._id || 'unknown'}">
+                            <div class="h-48 overflow-hidden">
+                                <img src="${imageUrl}" alt="${food.title || 'Food'}" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/400x300?text=No+Image'">
+                            </div>
+                            <div class="p-6">
+                                <div class="flex justify-between items-start mb-3">
+                                    <h3 class="text-xl font-semibold text-gray-900">${food.title || 'Unnamed Food'}</h3>
+                                    <span class="text-green-600 font-semibold">${priceDisplay || 'N/A'}</span>
+                                </div>
+                                <p class="text-sm text-gray-600 mb-2">
+                                    <span class="font-medium">Vendor: ${food.vendorName || 'Not specified'}</span>
+                                </p>
+                                <p class="text-sm text-gray-600 mb-2">
+                                    <span class="font-medium">Cuisine: ${food.cuisineType || 'Not specified'}</span>
+                                </p>
+                                <p class="text-gray-600 mb-4 line-clamp-2">${food.description || 'No description available'}</p>
+                                <div class="flex justify-between text-sm text-gray-500 mb-4">
+                                    <span><i class="fas fa-map-marker-alt mr-1"></i> ${food.city || 'Unknown'}</span>
+                                    <span><i class="fas fa-clock mr-1"></i> ${date || 'Unknown'}</span>
+                                </div>
+                                <div class="mb-3">
+                                    <p class="text-xs text-gray-500 mb-1">Tags:</p>
+                                    <p class="text-sm text-gray-600">${tagsDisplay}</p>
+                                </div>
+                                <div class="flex justify-between items-center">
+                                    <div class="flex items-center text-orange-500">
+                                        <i class="fas fa-utensils mr-1"></i>
+                                        <span class="text-gray-700">${food.cuisineType || 'Food'}</span>
+                                    </div>
+                                    <div class="flex flex-col space-y-2">
+                                        <button class="px-3 py-1 border border-gray-300 rounded text-xs text-gray-700 hover:bg-gray-50 transition-colors" onclick="getDirections('${food.city || ''}')">
+                                            <i class="fas fa-map-marker-alt mr-1"></i>
+                                            Directions
+                                        </button>
+                                        <a href="food-detail.html?id=${food._id || 'unknown'}" class="text-orange-600 hover:text-orange-700 font-medium text-sm">View Details →</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            function resetAllFilters() {
+                document.getElementById('city-filter').value = '';
+                document.getElementById('vendor-filter').value = '';
+                document.getElementById('cuisine-filter').value = '';
+                document.getElementById('price-filter').value = '';
+                document.getElementById('rating-filter').value = '';
+                updateFilterIndicator();
+            }
+
+            function showLoading(show) {
+                if (show) {
+                    loadingState.classList.remove('hidden');
+                    foodResults.classList.add('hidden');
+                } else {
+                    loadingState.classList.add('hidden');
+                }
+            }
+
+            // Get URL parameters for initial search
+            const urlParams = new URLSearchParams(window.location.search);
+            const initialQuery = urlParams.get('q');
+            if (initialQuery) {
+                searchInput.value = initialQuery;
+                performSearch();
+            }
+        });
+
+        // Global function for directions
+        function getDirections(city) {
+            showNotification(`Getting directions to ${city}...`, 'info');
+            // In a real app, this would integrate with Google Maps
+        }
+    </script>
+</body>
+</html>

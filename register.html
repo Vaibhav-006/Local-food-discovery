@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - FoodDiscover</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center space-x-2 text-2xl font-bold text-orange-600 hover:text-orange-700 transition-colors">
+                        <i class="fas fa-utensils"></i>
+                        <span>FoodDiscover</span>
+                    </a>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="search.html" class="flex items-center space-x-2 text-gray-700 hover:text-orange-600 transition-colors">
+                        <i class="fas fa-search"></i>
+                        <span>Discover</span>
+                    </a>
+                    <a href="upload.html" class="flex items-center space-x-2 text-gray-700 hover:text-orange-600 transition-colors">
+                        <i class="fas fa-plus"></i>
+                        <span>Upload</span>
+                    </a>
+                    <a href="ai-recommendations.html" class="text-gray-700 hover:text-orange-600 transition-colors">
+                        <span>AI Recommendations</span>
+                    </a>
+                    <a href="dashboard.html" class="flex items-center space-x-2 text-gray-700 hover:text-orange-600 transition-colors">
+                        <i class="fas fa-user"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="login.html" class="flex items-center space-x-2 text-gray-700 hover:text-orange-600 transition-colors">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Login</span>
+                    </a>
+                    <a href="register.html" class="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition-colors">
+                        <span>Sign Up</span>
+                    </a>
+                </div>
+                
+                <div class="md:hidden">
+                    <button id="nav-toggle" class="text-gray-700 hover:text-orange-600 focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Mobile menu -->
+            <div id="nav-menu" class="hidden md:hidden pb-4">
+                <div class="flex flex-col space-y-4">
+                    <a href="search.html" class="flex items-center space-x-2 text-gray-700 hover:text-orange-600 transition-colors">
+                        <i class="fas fa-search"></i>
+                        <span>Discover</span>
+                    </a>
+                    <a href="upload.html" class="flex items-center space-x-2 text-gray-700 hover:text-orange-600 transition-colors">
+                        <i class="fas fa-plus"></i>
+                        <span>Upload</span>
+                    </a>
+                    <a href="ai-recommendations.html" class="text-gray-700 hover:text-orange-600 transition-colors">
+                        <span>AI Recommendations</span>
+                    </a>
+                    <a href="dashboard.html" class="flex items-center space-x-2 text-gray-700 hover:text-orange-600 transition-colors">
+                        <i class="fas fa-user"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="login.html" class="flex items-center space-x-2 text-gray-700 hover:text-orange-600 transition-colors">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Login</span>
+                    </a>
+                    <a href="register.html" class="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition-colors text-center">
+                        <span>Sign Up</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Registration Form -->
+    <div class="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-md w-full space-y-8">
+            <!-- Header -->
+            <div class="text-center">
+                <div class="mx-auto h-16 w-16 bg-orange-100 rounded-full flex items-center justify-center mb-6">
+                    <i class="fas fa-user-plus text-3xl text-orange-600"></i>
+                </div>
+                <h2 class="text-3xl font-bold text-gray-900 mb-2">Create Your Account</h2>
+                <p class="text-gray-600">Join FoodDiscover and start sharing your food discoveries</p>
+            </div>
+
+            <!-- Registration Form -->
+            <form id="register-form" class="bg-white py-8 px-6 shadow-xl rounded-lg space-y-6">
+                <!-- Personal Information Section -->
+                <div class="space-y-4">
+                    <h3 class="text-lg font-semibold text-gray-900 border-b border-gray-200 pb-2">Personal Information</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label for="first-name" class="block text-sm font-medium text-gray-700 mb-1">
+                                First Name <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="first-name" name="first-name" required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+                                placeholder="John">
+                        </div>
+                        <div>
+                            <label for="last-name" class="block text-sm font-medium text-gray-700 mb-1">
+                                Last Name <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" id="last-name" name="last-name" required
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+                                placeholder="Doe">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="email" class="block text-sm font-medium text-gray-700 mb-1">
+                            Email Address <span class="text-red-500">*</span>
+                        </label>
+                        <input type="email" id="email" name="email" required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+                            placeholder="john.doe@example.com">
+                    </div>
+
+                    <div>
+                        <label for="username" class="block text-sm font-medium text-gray-700 mb-1">
+                            Username <span class="text-red-500">*</span>
+                        </label>
+                        <input type="text" id="username" name="username" required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+                            placeholder="johndoe">
+                        <p class="text-xs text-gray-500 mt-1">Username must be unique and 3-20 characters long</p>
+                    </div>
+                </div>
+
+                <!-- Security Section -->
+                <div class="space-y-4">
+                    <h3 class="text-lg font-semibold text-gray-900 border-b border-gray-200 pb-2">Security</h3>
+                    
+                    <div>
+                        <label for="password" class="block text-sm font-medium text-gray-700 mb-1">
+                            Password <span class="text-red-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <input type="password" id="password" name="password" required
+                                class="w-full px-3 py-2 pr-10 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+                                placeholder="Create a strong password">
+                            <button type="button" id="toggle-password" class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                <i class="fas fa-eye text-gray-400 hover:text-gray-600"></i>
+                            </button>
+                        </div>
+                        <div class="mt-2 space-y-1">
+                            <div class="flex items-center text-xs">
+                                <div id="length-check" class="w-2 h-2 rounded-full bg-gray-300 mr-2"></div>
+                                <span class="text-gray-500">At least 8 characters</span>
+                            </div>
+                            <div class="flex items-center text-xs">
+                                <div id="uppercase-check" class="w-2 h-2 rounded-full bg-gray-300 mr-2"></div>
+                                <span class="text-gray-500">One uppercase letter</span>
+                            </div>
+                            <div class="flex items-center text-xs">
+                                <div id="lowercase-check" class="w-2 h-2 rounded-full bg-gray-300 mr-2"></div>
+                                <span class="text-gray-500">One lowercase letter</span>
+                            </div>
+                            <div class="flex items-center text-xs">
+                                <div id="number-check" class="w-2 h-2 rounded-full bg-gray-300 mr-2"></div>
+                                <span class="text-gray-500">One number</span>
+                            </div>
+                            <div class="flex items-center text-xs">
+                                <div id="special-check" class="w-2 h-2 rounded-full bg-gray-300 mr-2"></div>
+                                <span class="text-gray-500">One special character</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="confirm-password" class="block text-sm font-medium text-gray-700 mb-1">
+                            Confirm Password <span class="text-red-500">*</span>
+                        </label>
+                        <input type="password" id="confirm-password" name="confirm-password" required
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+                            placeholder="Confirm your password">
+                        <div id="password-match" class="hidden mt-1 text-sm text-red-600">Passwords do not match</div>
+                    </div>
+                </div>
+
+                <!-- Preferences Section -->
+                <div class="space-y-4">
+                    <h3 class="text-lg font-semibold text-gray-900 border-b border-gray-200 pb-2">Preferences</h3>
+                    
+                    <div>
+                        <label for="location" class="block text-sm font-medium text-gray-700 mb-1">
+                            Location
+                        </label>
+                        <input type="text" id="location" name="location"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors"
+                            placeholder="City, State (optional)">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Food Interests</label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <label class="flex items-center">
+                                <input type="checkbox" name="interests" value="italian" class="rounded border-gray-300 text-orange-600 focus:ring-orange-500">
+                                <span class="ml-2 text-sm text-gray-700">Italian</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" name="interests" value="asian" class="rounded border-gray-300 text-orange-600 focus:ring-orange-500">
+                                <span class="ml-2 text-sm text-gray-700">Asian</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" name="interests" value="mexican" class="rounded border-gray-300 text-orange-600 focus:ring-orange-500">
+                                <span class="ml-2 text-sm text-gray-700">Mexican</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" name="interests" value="american" class="rounded border-gray-300 text-orange-600 focus:ring-orange-500">
+                                <span class="ml-2 text-sm text-gray-700">American</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" name="interests" value="mediterranean" class="rounded border-gray-300 text-orange-600 focus:ring-orange-500">
+                                <span class="ml-2 text-sm text-gray-700">Mediterranean</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="checkbox" name="interests" value="desserts" class="rounded border-gray-300 text-orange-600 focus:ring-orange-500">
+                                <span class="ml-2 text-sm text-gray-700">Desserts</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="dietary-restrictions" class="block text-sm font-medium text-gray-700 mb-1">
+                            Dietary Restrictions
+                        </label>
+                        <select id="dietary-restrictions" name="dietary-restrictions"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500 transition-colors">
+                            <option value="">No restrictions</option>
+                            <option value="vegetarian">Vegetarian</option>
+                            <option value="vegan">Vegan</option>
+                            <option value="gluten-free">Gluten-Free</option>
+                            <option value="dairy-free">Dairy-Free</option>
+                            <option value="keto">Keto</option>
+                            <option value="paleo">Paleo</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Terms & Conditions -->
+                <div class="space-y-4">
+                    <div class="flex items-start">
+                        <input type="checkbox" id="terms" name="terms" required
+                            class="mt-1 rounded border-gray-300 text-orange-600 focus:ring-orange-500">
+                        <label for="terms" class="ml-2 text-sm text-gray-700">
+                            I agree to the <a href="#" class="text-orange-600 hover:text-orange-700 underline">Terms of Service</a> and 
+                            <a href="#" class="text-orange-600 hover:text-orange-700 underline">Privacy Policy</a> <span class="text-red-500">*</span>
+                        </label>
+                    </div>
+
+                    <div class="flex items-start">
+                        <input type="checkbox" id="newsletter" name="newsletter"
+                            class="mt-1 rounded border-gray-300 text-orange-600 focus:ring-orange-500">
+                        <label for="newsletter" class="ml-2 text-sm text-gray-700">
+                            I want to receive updates about new features and food discoveries
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" id="submit-btn"
+                    class="w-full bg-orange-600 text-white py-3 px-4 rounded-lg hover:bg-orange-700 focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-colors font-medium">
+                    <span id="btn-text">Create Account</span>
+                    <div id="btn-loading" class="hidden">
+                        <i class="fas fa-spinner fa-spin mr-2"></i>
+                        Creating Account...
+                    </div>
+                </button>
+
+                <!-- Login Link -->
+                <div class="text-center">
+                    <p class="text-gray-600">
+                        Already have an account? 
+                        <a href="login.html" class="text-orange-600 hover:text-orange-700 font-medium">Sign in here</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <h3 class="text-2xl font-bold text-orange-400 mb-4">FoodDiscover</h3>
+                    <p class="text-gray-300">Your ultimate platform for discovering amazing local food.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="search.html" class="text-gray-300 hover:text-orange-400 transition-colors">Discover Food</a></li>
+                        <li><a href="upload.html" class="text-gray-300 hover:text-orange-400 transition-colors">Upload Food</a></li>
+                        <li><a href="ai-recommendations.html" class="text-gray-300 hover:text-orange-400 transition-colors">AI Recommendations</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Account</h4>
+                    <ul class="space-y-2">
+                        <li><a href="login.html" class="text-gray-300 hover:text-orange-400 transition-colors">Login</a></li>
+                        <li><a href="register.html" class="text-gray-300 hover:text-orange-400 transition-colors">Register</a></li>
+                        <li><a href="dashboard.html" class="text-gray-300 hover:text-orange-400 transition-colors">Dashboard</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 pt-8 text-center">
+                <p class="text-gray-400">&copy; 2024 FoodDiscover. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Registration form functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('register-form');
+            const password = document.getElementById('password');
+            const confirmPassword = document.getElementById('confirm-password');
+            const togglePassword = document.getElementById('toggle-password');
+            const submitBtn = document.getElementById('submit-btn');
+            const btnText = document.getElementById('btn-text');
+            const btnLoading = document.getElementById('btn-loading');
+
+            // Password visibility toggle
+            togglePassword.addEventListener('click', function() {
+                const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                password.setAttribute('type', type);
+                this.querySelector('i').classList.toggle('fa-eye');
+                this.querySelector('i').classList.toggle('fa-eye-slash');
+            });
+
+            // Password strength checker
+            password.addEventListener('input', function() {
+                const value = this.value;
+                
+                // Length check
+                document.getElementById('length-check').className = 
+                    `w-2 h-2 rounded-full mr-2 ${value.length >= 8 ? 'bg-green-500' : 'bg-gray-300'}`;
+                
+                // Uppercase check
+                document.getElementById('uppercase-check').className = 
+                    `w-2 h-2 rounded-full mr-2 ${/[A-Z]/.test(value) ? 'bg-green-500' : 'bg-gray-300'}`;
+                
+                // Lowercase check
+                document.getElementById('lowercase-check').className = 
+                    `w-2 h-2 rounded-full mr-2 ${/[a-z]/.test(value) ? 'bg-green-500' : 'bg-gray-300'}`;
+                
+                // Number check
+                document.getElementById('number-check').className = 
+                    `w-2 h-2 rounded-full mr-2 ${/\d/.test(value) ? 'bg-green-500' : 'bg-gray-300'}`;
+                
+                // Special character check
+                document.getElementById('special-check').className = 
+                    `w-2 h-2 rounded-full mr-2 ${/[!@#$%^&*(),.?":{}|<>]/.test(value) ? 'bg-green-500' : 'bg-gray-300'}`;
+            });
+
+            // Password confirmation check
+            confirmPassword.addEventListener('input', function() {
+                const passwordMatch = document.getElementById('password-match');
+                if (this.value !== password.value) {
+                    passwordMatch.classList.remove('hidden');
+                    this.classList.add('border-red-500');
+                } else {
+                    passwordMatch.classList.add('hidden');
+                    this.classList.remove('border-red-500');
+                }
+            });
+
+            // Form submission
+            form.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                
+                // Basic validation
+                if (!validateForm()) {
+                    return;
+                }
+
+                // Show loading state
+                btnText.classList.add('hidden');
+                btnLoading.classList.remove('hidden');
+                submitBtn.disabled = true;
+
+                try {
+                    const formData = {
+                        firstName: document.getElementById('first-name').value,
+                        lastName: document.getElementById('last-name').value,
+                        email: document.getElementById('email').value,
+                        username: document.getElementById('username').value,
+                        password: document.getElementById('password').value,
+                        location: document.getElementById('location').value,
+                        foodInterests: Array.from(document.querySelectorAll('input[name="interests"]:checked')).map(cb => cb.value),
+                        dietaryRestrictions: document.getElementById('dietary-restrictions').value,
+                        newsletter: document.getElementById('newsletter').checked
+                    };
+
+                    const response = await fetch('http://localhost:5000/api/auth/register', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(formData)
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok && data.success) {
+                        // Store token and user data in localStorage
+                        localStorage.setItem('token', data.token);
+                        localStorage.setItem('user', JSON.stringify(data.user));
+                        
+                        showNotification(data.message || 'Account created successfully! Redirecting to home page...', 'success');
+                        setTimeout(() => {
+                            window.location.href = 'index.html';
+                        }, 2000);
+                    } else {
+                        showNotification(data.message || 'Registration failed', 'error');
+                        btnText.classList.remove('hidden');
+                        btnLoading.classList.add('hidden');
+                        submitBtn.disabled = false;
+                    }
+                } catch (error) {
+                    console.error('Registration error:', error);
+                    showNotification('Network error. Please check your connection and try again.', 'error');
+                    btnText.classList.remove('hidden');
+                    btnLoading.classList.add('hidden');
+                    submitBtn.disabled = false;
+                }
+            });
+
+            // Form validation
+            function validateForm() {
+                const requiredFields = form.querySelectorAll('[required]');
+                let isValid = true;
+
+                requiredFields.forEach(field => {
+                    if (!field.value.trim()) {
+                        field.classList.add('border-red-500');
+                        isValid = false;
+                    } else {
+                        field.classList.remove('border-red-500');
+                    }
+                });
+
+                // Check password match
+                if (password.value !== confirmPassword.value) {
+                    confirmPassword.classList.add('border-red-500');
+                    isValid = false;
+                }
+
+                // Check terms acceptance
+                const terms = document.getElementById('terms');
+                if (!terms.checked) {
+                    terms.parentElement.classList.add('text-red-600');
+                    isValid = false;
+                } else {
+                    terms.parentElement.classList.remove('text-red-600');
+                }
+
+                if (!isValid) {
+                    showNotification('Please fill in all required fields correctly', 'error');
+                }
+
+                return isValid;
+            }
+
+            // Real-time validation feedback
+            const inputs = form.querySelectorAll('input, select');
+            inputs.forEach(input => {
+                input.addEventListener('blur', function() {
+                    if (this.hasAttribute('required') && !this.value.trim()) {
+                        this.classList.add('border-red-500');
+                    } else {
+                        this.classList.remove('border-red-500');
+                    }
+                });
+
+                input.addEventListener('input', function() {
+                    if (this.classList.contains('border-red-500')) {
+                        this.classList.remove('border-red-500');
+                    }
+                });
+            });
+
+            // Username availability check (simulated)
+            const usernameInput = document.getElementById('username');
+            let usernameTimeout;
+            usernameInput.addEventListener('input', function() {
+                clearTimeout(usernameTimeout);
+                usernameTimeout = setTimeout(() => {
+                    if (this.value.length >= 3) {
+                        // Simulate API call to check username availability
+                        const isAvailable = Math.random() > 0.3; // 70% chance of being available
+                        if (!isAvailable) {
+                            this.classList.add('border-red-500');
+                            showNotification('Username is already taken', 'error');
+                        } else {
+                            this.classList.remove('border-red-500');
+                        }
+                    }
+                }, 500);
+            });
+        });
+
+        // Function to show notifications (if not already defined in script.js)
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg text-white font-medium transform translate-x-full transition-transform duration-300`;
+            
+            // Set background color based on type
+            if (type === 'success') {
+                notification.style.backgroundColor = '#10b981';
+            } else if (type === 'error') {
+                notification.style.backgroundColor = '#ef4444';
+            } else {
+                notification.style.backgroundColor = '#3b82f6';
+            }
+            
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            // Show notification
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full');
+            }, 100);
+            
+            // Hide and remove notification
+            setTimeout(() => {
+                notification.classList.add('translate-x-full');
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>

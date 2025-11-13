@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Detail - FoodDiscover</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center">
+                    <a href="index.html" class="flex items-center space-x-2 text-2xl font-bold text-orange-600 hover:text-orange-700 transition-colors">
+                        <i class="fas fa-utensils"></i>
+                        <span>FoodDiscover</span>
+                    </a>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="search.html" class="flex items-center space-x-2 text-gray-700 hover:text-orange-600 transition-colors">
+                        <i class="fas fa-search"></i>
+                        <span>Discover</span>
+                    </a>
+                    <a href="upload.html" class="flex items-center space-x-2 text-gray-700 hover:text-orange-600 transition-colors">
+                        <i class="fas fa-plus"></i>
+                        <span>Upload</span>
+                    </a>
+                    <a href="ai-recommendations.html" class="text-gray-700 hover:text-orange-600 transition-colors">
+                        <span>AI Recommendations</span>
+                    </a>
+                    <a href="dashboard.html" class="flex items-center space-x-2 text-gray-700 hover:text-orange-600 transition-colors">
+                        <i class="fas fa-user"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="login.html" class="flex items-center space-x-2 text-gray-700 hover:text-orange-600 transition-colors">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Login</span>
+                    </a>
+                    <a href="register.html" class="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition-colors">
+                        <span>Sign Up</span>
+                    </a>
+                </div>
+                
+                <div class="md:hidden">
+                    <button id="nav-toggle" class="text-gray-700 hover:text-orange-600 focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Mobile menu -->
+            <div id="nav-menu" class="hidden md:hidden pb-4">
+                <div class="flex flex-col space-y-4">
+                    <a href="search.html" class="flex items-center space-x-2 text-gray-700 hover:text-orange-600 transition-colors">
+                        <i class="fas fa-search"></i>
+                        <span>Discover</span>
+                    </a>
+                    <a href="upload.html" class="flex items-center space-x-2 text-gray-700 hover:text-orange-600 transition-colors">
+                        <i class="fas fa-plus"></i>
+                        <span>Upload</span>
+                    </a>
+                    <a href="ai-recommendations.html" class="text-gray-700 hover:text-orange-600 transition-colors">
+                        <span>AI Recommendations</span>
+                    </a>
+                    <a href="dashboard.html" class="flex items-center space-x-2 text-gray-700 hover:text-orange-600 transition-colors">
+                        <i class="fas fa-user"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="login.html" class="flex items-center space-x-2 text-gray-700 hover:text-orange-600 transition-colors">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Login</span>
+                    </a>
+                    <a href="register.html" class="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition-colors text-center">
+                        <span>Sign Up</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div class="bg-white border-b border-gray-200 py-3">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="flex" aria-label="Breadcrumb">
+                <ol class="flex items-center space-x-4">
+                    <li>
+                        <a href="index.html" class="text-gray-500 hover:text-orange-600 transition-colors">
+                            <i class="fas fa-home mr-2"></i>Home
+                        </a>
+                    </li>
+                    <li>
+                        <a href="search.html" class="text-gray-500 hover:text-orange-600 transition-colors">
+                            <i class="fas fa-chevron-right mr-2"></i>Discover
+                        </a>
+                    </li>
+                    <li class="text-gray-900 font-medium">
+                        <i class="fas fa-chevron-right mr-2"></i>Food Detail
+                    </li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Food Detail Content -->
+    <div class="py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Food Header -->
+            <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+                <div class="grid gap-8">
+                    <!-- Food Images -->
+                    <div class="space-y-4">
+                        <div class="relative">
+                            <img id="main-image" src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=600&h=400&fit=crop" alt="Pizza Margherita" class="w-full h-80 object-cover rounded-lg">
+                            <button class="absolute top-4 right-4 bg-white bg-opacity-90 p-2 rounded-full shadow-md hover:bg-opacity-100 transition-all">
+                                <i class="fas fa-heart text-red-500"></i>
+                            </button>
+                        </div>
+                        <div class="grid grid-cols-4 gap-2">
+                            <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=150&h=100&fit=crop" alt="Pizza Margherita" class="w-full h-20 object-cover rounded-lg cursor-pointer hover:opacity-80 transition-opacity" onclick="changeMainImage(this.src)">
+                            <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=150&h=100&fit=crop" alt="Pizza Margherita" class="w-full h-20 object-cover rounded-lg cursor-pointer hover:opacity-80 transition-opacity" onclick="changeMainImage(this.src)">
+                            <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=150&h=100&fit=crop" alt="Pizza Margherita" class="w-full h-20 object-cover rounded-lg cursor-pointer hover:opacity-80 transition-opacity" onclick="changeMainImage(this.src)">
+                            <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=150&h=100&fit=crop" alt="Pizza Margherita" class="w-full h-20 object-cover rounded-lg cursor-pointer hover:opacity-80 transition-opacity" onclick="changeMainImage(this.src)">
+                        </div>
+                    </div>
+
+                    <!-- Food Information -->
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <h1 class="text-3xl font-bold text-gray-900">Pizza Margherita</h1>
+                                <span class="text-2xl font-bold text-green-600">$$</span>
+                            </div>
+                            <p class="text-gray-600 text-lg">Authentic Italian pizza with fresh mozzarella and basil</p>
+                        </div>
+
+                        <!-- Rating and Reviews -->
+                        <div class="flex items-center space-x-4">
+                            <div class="flex items-center">
+                                <div class="flex text-yellow-400">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <span class="ml-2 text-lg font-semibold text-gray-900">4.8</span>
+                                <span class="ml-1 text-gray-600">(24 reviews)</span>
+                            </div>
+                        </div>
+
+                        <!-- Vendor Information -->
+                        <div class="bg-gray-50 rounded-lg p-4">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-12 h-12 bg-orange-100 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-store text-orange-600"></i>
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-gray-900">Pizza Palace</h3>
+                                    <p class="text-gray-600">Italian Restaurant</p>
+                                    <div class="flex items-center text-sm text-gray-500 mt-1">
+                                        <i class="fas fa-map-marker-alt mr-1"></i>
+                                        <span>New York, NY</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="flex-row space-x-4">
+                            <button class="flex-1 bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-orange-700 transition-colors flex items-center justify-center">
+                                <i class="fas fa-map-marker-alt mr-2"></i>
+                                Get Directions
+                            </button>
+                            <button class="flex-1 border border-orange-600 text-orange-600 py-3 px-6 rounded-lg hover:bg-orange-50 transition-colors flex items-center justify-center">
+                                <i class="fas fa-phone mr-2"></i>
+                                Call Restaurant
+                            </button>
+                        </div>
+
+                        <!-- Tags -->
+                        <div class="flex flex-wrap gap-2">
+                            <span class="bg-orange-100 text-blue-800 px-3 py-1 rounded-full text-sm">Italian</span>
+                            <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm">Pizza</span>
+                            <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm">Vegetarian</span>
+                            <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm">Traditional</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Detailed Information Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Left Column - Description & Details -->
+                <div class="lg:col-span-2 space-y-6">
+                    <!-- Description -->
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h2 class="text-xl font-semibold text-gray-900 mb-4">Description</h2>
+                        <p class="text-gray-700 leading-relaxed mb-4">
+                            This classic Pizza Margherita is a true representation of traditional Italian pizza making. 
+                            Made with a thin, crispy crust that's been hand-stretched and baked in a wood-fired oven, 
+                            it features the perfect balance of flavors that have made this dish world-famous.
+                        </p>
+                        <p class="text-gray-700 leading-relaxed">
+                            The pizza is topped with fresh San Marzano tomatoes, creamy buffalo mozzarella, 
+                            fragrant basil leaves, and a drizzle of extra virgin olive oil. The combination 
+                            creates a harmonious blend of sweet, tangy, and herbal notes that dance on your palate.
+                        </p>
+                    </div>
+
+                    <!-- Ingredients & Nutrition -->
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h2 class="text-xl font-semibold text-gray-900 mb-4">Ingredients & Nutrition</h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                                <h3 class="font-medium text-gray-900 mb-3">Ingredients</h3>
+                                <ul class="space-y-2 text-gray-700">
+                                    <li class="flex items-center">
+                                        <i class="fas fa-circle text-orange-500 text-xs mr-2"></i>
+                                        Hand-stretched pizza dough
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-circle text-orange-500 text-xs mr-2"></i>
+                                        San Marzano tomato sauce
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-circle text-orange-500 text-xs mr-2"></i>
+                                        Fresh buffalo mozzarella
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-circle text-orange-500 text-xs mr-2"></i>
+                                        Fresh basil leaves
+                                    </li>
+                                    <li class="flex items-center">
+                                        <i class="fas fa-circle text-orange-500 text-xs mr-2"></i>
+                                        Extra virgin olive oil
+                                    </li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="font-medium text-gray-900 mb-3">Nutrition (per slice)</h3>
+                                <div class="space-y-2 text-gray-700">
+                                    <div class="flex justify-between">
+                                        <span>Calories</span>
+                                        <span class="font-medium">285</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>Protein</span>
+                                        <span class="font-medium">12g</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>Carbs</span>
+                                        <span class="font-medium">35g</span>
+                                    </div>
+                                    <div class="flex justify-between">
+                                        <span>Fat</span>
+                                        <span class="font-medium">14g</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Reviews Section -->
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h2 class="text-xl font-semibold text-gray-900">Reviews (24)</h2>
+                            <button class="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition-colors">
+                                Write a Review
+                            </button>
+                        </div>
+
+                        <!-- Review Stats -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                            <div class="text-center p-4 bg-gray-50 rounded-lg">
+                                <div class="text-2xl font-bold text-orange-600">4.8</div>
+                                <div class="text-sm text-gray-600">Overall Rating</div>
+                            </div>
+                            <div class="text-center p-4 bg-gray-50 rounded-lg">
+                                <div class="text-2xl font-bold text-green-600">24</div>
+                                <div class="text-sm text-gray-600">Total Reviews</div>
+                            </div>
+                            <div class="text-center p-4 bg-gray-50 rounded-lg">
+                                <div class="text-2xl font-bold text-blue-600">18</div>
+                                <div class="text-sm text-gray-600">Would Recommend</div>
+                            </div>
+                        </div>
+
+                        <!-- Individual Reviews -->
+                        <div class="space-y-4">
+                            <div class="border-b border-gray-200 pb-4">
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-user text-orange-600"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <h4 class="font-medium text-gray-900">Sarah Johnson</h4>
+                                            <div class="flex text-yellow-400">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                            </div>
+                                        </div>
+                                        <p class="text-gray-700 mb-2">Absolutely delicious! The crust was perfectly crispy and the mozzarella was so fresh. Will definitely come back!</p>
+                                        <span class="text-sm text-gray-500">2 days ago</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="border-b border-gray-200 pb-4">
+                                <div class="flex items-start space-x-3">
+                                    <div class="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center">
+                                        <i class="fas fa-user text-orange-600"></i>
+                                    </div>
+                                    <div class="flex-1">
+                                        <div class="flex items-center justify-between mb-2">
+                                            <h4 class="font-medium text-gray-900">Mike Chen</h4>
+                                            <div class="flex text-yellow-400">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="far fa-star"></i>
+                                            </div>
+                                        </div>
+                                        <p class="text-gray-700 mb-2">Great pizza, authentic Italian taste. The only minor issue was it could have been a bit hotter when served.</p>
+                                        <span class="text-sm text-gray-500">1 week ago</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column - Sidebar -->
+                <div class="space-y-6">
+                    <!-- Location & Hours -->
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Location & Hours</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-start space-x-3">
+                                <i class="fas fa-map-marker-alt text-orange-600 mt-1"></i>
+                                <div>
+                                    <p class="text-gray-900 font-medium">Pizza Palace</p>
+                                    <p class="text-gray-600">123 Italian Street</p>
+                                    <p class="text-gray-600">New York, NY 10001</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <i class="fas fa-clock text-orange-600 mt-1"></i>
+                                <div>
+                                    <p class="text-gray-900 font-medium">Hours</p>
+                                    <p class="text-gray-600">Mon-Fri: 11:00 AM - 10:00 PM</p>
+                                    <p class="text-gray-600">Sat-Sun: 12:00 PM - 11:00 PM</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <i class="fas fa-phone text-orange-600 mt-1"></i>
+                                <div>
+                                    <p class="text-gray-900 font-medium">Contact</p>
+                                    <p class="text-gray-600">(555) 123-4567</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Similar Foods -->
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Similar Foods</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">
+                                <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=80&h=60&fit=crop" alt="Pizza" class="w-16 h-12 object-cover rounded">
+                                <div>
+                                    <h4 class="font-medium text-gray-900">Pizza Napoletana</h4>
+                                    <p class="text-sm text-gray-600">$18</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">
+                                <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=80&h=60&fit=crop" alt="Pizza" class="w-16 h-12 object-cover rounded">
+                                <div>
+                                    <h4 class="font-medium text-gray-900">Pizza Quattro Stagioni</h4>
+                                    <p class="text-sm text-gray-600">$22</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-3 p-3 rounded-lg hover:bg-gray-50 transition-colors cursor-pointer">
+                                <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ca4b?w=80&h=60&fit=crop" alt="Pizza" class="w-16 h-12 object-cover rounded">
+                                <div>
+                                    <h4 class="font-medium text-gray-900">Pizza Diavola</h4>
+                                    <p class="text-sm text-gray-600">$20</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Share & Save -->
+                    <div class="bg-white rounded-lg shadow-md p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4">Share & Save</h3>
+                        <div class="space-y-3">
+                            <button class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center">
+                                <i class="fab fa-facebook-f mr-2"></i>
+                                Share on Facebook
+                            </button>
+                            <button class="w-full bg-blue-400 text-white py-2 px-4 rounded-lg hover:bg-blue-500 transition-colors flex items-center justify-center">
+                                <i class="fab fa-twitter mr-2"></i>
+                                Share on Twitter
+                            </button>
+                            <button class="w-full bg-green-600 text-white py-2 px-4 rounded-lg hover:bg-green-700 transition-colors flex items-center justify-center">
+                                <i class="fab fa-whatsapp mr-2"></i>
+                                Share on WhatsApp
+                            </button>
+                            <button class="w-full border border-gray-300 text-gray-700 py-2 px-4 rounded-lg hover:bg-gray-50 transition-colors flex items-center justify-center">
+                                <i class="fas fa-bookmark mr-2"></i>
+                                Save to Favorites
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16 mt-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <h3 class="text-2xl font-bold text-orange-400 mb-4">FoodDiscover</h3>
+                    <p class="text-gray-300">Your ultimate platform for discovering amazing local food.</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="search.html" class="text-gray-300 hover:text-orange-400 transition-colors">Discover Food</a></li>
+                        <li><a href="upload.html" class="text-gray-300 hover:text-orange-400 transition-colors">Upload Food</a></li>
+                        <li><a href="ai-recommendations.html" class="text-gray-300 hover:text-orange-400 transition-colors">AI Recommendations</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Account</h4>
+                    <ul class="space-y-2">
+                        <li><a href="login.html" class="text-gray-300 hover:text-orange-400 transition-colors">Login</a></li>
+                        <li><a href="register.html" class="text-gray-300 hover:text-orange-400 transition-colors">Register</a></li>
+                        <li><a href="dashboard.html" class="text-gray-300 hover:text-orange-400 transition-colors">Dashboard</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 pt-8 text-center">
+                <p class="text-gray-400">&copy; 2024 FoodDiscover. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Food detail page specific functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get food ID from URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const foodId = urlParams.get('id');
+            
+            // Load food data based on ID (in a real app, this would be an API call)
+            loadFoodData(foodId);
+
+            // Initialize like button functionality
+            const likeButton = document.querySelector('.fa-heart').parentElement;
+            let isLiked = false;
+            
+            likeButton.addEventListener('click', function() {
+                isLiked = !isLiked;
+                const icon = this.querySelector('i');
+                if (isLiked) {
+                    icon.classList.remove('far');
+                    icon.classList.add('fas');
+                    this.classList.add('bg-red-500');
+                    this.classList.remove('bg-white');
+                    showNotification('Added to favorites!', 'success');
+                } else {
+                    icon.classList.remove('fas');
+                    icon.classList.add('far');
+                    this.classList.remove('bg-red-500');
+                    this.classList.add('bg-white');
+                    showNotification('Removed from favorites', 'info');
+                }
+            });
+
+            // Initialize review form
+            const writeReviewBtn = document.querySelector('button:contains("Write a Review")');
+            if (writeReviewBtn) {
+                writeReviewBtn.addEventListener('click', function() {
+                    showNotification('Review form would open here', 'info');
+                });
+            }
+
+            // Initialize share buttons
+            const shareButtons = document.querySelectorAll('.bg-blue-600, .bg-blue-400, .bg-green-600');
+            shareButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const platform = this.textContent.includes('Facebook') ? 'Facebook' : 
+                                   this.textContent.includes('Twitter') ? 'Twitter' : 'WhatsApp';
+                    showNotification(`Sharing on ${platform}...`, 'info');
+                });
+            });
+
+            // Initialize save button
+            const saveButton = document.querySelector('.fa-bookmark').parentElement;
+            let isSaved = false;
+            
+            saveButton.addEventListener('click', function() {
+                isSaved = !isSaved;
+                const icon = this.querySelector('i');
+                if (isSaved) {
+                    icon.classList.add('text-orange-600');
+                    this.classList.add('bg-orange-50', 'border-orange-300');
+                    showNotification('Saved to favorites!', 'success');
+                } else {
+                    icon.classList.remove('text-orange-600');
+                    this.classList.remove('bg-orange-50', 'border-orange-300');
+                    showNotification('Removed from favorites', 'info');
+                }
+            });
+        });
+
+        // Function to change main image
+        function changeMainImage(src) {
+            document.getElementById('main-image').src = src;
+        }
+
+        // Function to load food data
+        function loadFoodData(foodId) {
+            // In a real app, this would fetch data from an API
+            // For now, we'll just log the ID
+            console.log('Loading food data for ID:', foodId);
+            
+            // You could update the page content here based on the food ID
+            // For example, update images, descriptions, prices, etc.
+        }
+
+        // Function to show notifications (if not already defined in script.js)
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `fixed top-4 right-4 z-50 p-4 rounded-lg text-white font-medium transform translate-x-full transition-transform duration-300`;
+            
+            // Set background color based on type
+            if (type === 'success') {
+                notification.style.backgroundColor = '#10b981';
+            } else if (type === 'error') {
+                notification.style.backgroundColor = '#ef4444';
+            } else {
+                notification.style.backgroundColor = '#3b82f6';
+            }
+            
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            // Show notification
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full');
+            }, 100);
+            
+            // Hide and remove notification
+            setTimeout(() => {
+                notification.classList.add('translate-x-full');
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
