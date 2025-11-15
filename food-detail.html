@@ -489,8 +489,8 @@
             });
 
             // Initialize review form
-            const writeReviewBtn = document.querySelector('button:contains("Write a Review")');
-            if (writeReviewBtn) {
+            const writeReviewBtn = document.querySelector('button');
+            if (writeReviewBtn && writeReviewBtn.textContent.includes('Write a Review')) {
                 writeReviewBtn.addEventListener('click', function() {
                     showNotification('Review form would open here', 'info');
                 });
@@ -531,13 +531,205 @@
         }
 
         // Function to load food data
-        function loadFoodData(foodId) {
-            // In a real app, this would fetch data from an API
-            // For now, we'll just log the ID
-            console.log('Loading food data for ID:', foodId);
+        async function loadFoodData(foodId) {
+            if (!foodId) {
+                console.error('No food ID provided');
+                showNotification('Food ID not found', 'error');
+                return;
+            }
+
+            try {
+                const apiUrl = window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1')
+                    ? 'http://localhost:5000/api/foods'
+                    : `${window.location.origin}/api/foods`;
+
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+
+                if (data.success && data.foods) {
+                    const food = data.foods.find(f => f._id === foodId);
+                    
+                    if (food) {
+                        displayFoodData(food);
+                    } else {
+                        // Try fetching single food item
+                        await fetchSingleFood(foodId);
+                    }
+                } else {
+                    // Try fetching single food item
+                    await fetchSingleFood(foodId);
+                }
+            } catch (error) {
+                console.error('Error loading food data:', error);
+                showNotification('Failed to load food details', 'error');
+            }
+        }
+
+        // Function to fetch single food item
+        async function fetchSingleFood(foodId) {
+            try {
+                const apiUrl = window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1')
+                    ? `http://localhost:5000/api/foods/${foodId}`
+                    : `${window.location.origin}/api/foods/${foodId}`;
+
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+
+                if (data.success && data.food) {
+                    displayFoodData(data.food);
+                } else {
+                    showNotification('Food item not found', 'error');
+                }
+            } catch (error) {
+                console.error('Error fetching food:', error);
+                showNotification('Failed to load food details', 'error');
+            }
+        }
+
+        // Function to display food data
+        function displayFoodData(food) {
+            // Update title
+            const titleElement = document.querySelector('h1');
+            if (titleElement) titleElement.textContent = food.title || 'Food Item';
+
+            // Update description
+            const descElement = document.querySelector('.text-gray-600.text-lg');
+            if (descElement) descElement.textContent = food.description || 'No description available';
+
+            // Update price
+            const priceElement = document.querySelector('.text-2xl.font-bold.text-green-600');
+            if (priceElement) {
+                priceElement.textContent = food.price ? `₹${food.price}` : (food.priceRange || 'N/A');
+            }
+
+            // Update vendor info
+            const vendorName = document.querySelector('.font-semibold.text-gray-900');
+            if (vendorName && food.vendorName) {
+                vendorName.textContent = food.vendorName;
+            }
+
+            const vendorDesc = vendorName?.nextElementSibling;
+            if (vendorDesc && food.cuisineType) {
+                vendorDesc.textContent = food.cuisineType;
+            }
+
+            // Update location
+            const locationElement = document.querySelector('.fa-map-marker-alt')?.parentElement?.querySelector('span');
+            if (locationElement && food.city) {
+                locationElement.textContent = food.city + (food.address ? `, ${food.address}` : '');
+            }
+
+            // Update images
+            console.log('Food images:', food.images); // Debug log
             
-            // You could update the page content here based on the food ID
-            // For example, update images, descriptions, prices, etc.
+            if (food.images && food.images.length > 0) {
+                const mainImage = document.getElementById('main-image');
+                const thumbnails = document.querySelectorAll('.grid.grid-cols-4 img');
+
+                // Get image URL (handle both Cloudinary HTTPS URLs and local paths)
+                const getImageUrl = (imagePath) => {
+                    if (!imagePath) return 'https://via.placeholder.com/600x400?text=No+Image';
+                    
+                    // Cloudinary URLs are HTTPS and work in production
+                    // If it's already a full HTTPS URL (Cloudinary), return as is
+                    if (imagePath.startsWith('https://')) {
+                        return imagePath; // Cloudinary HTTPS URL - works in production
+                    }
+                    
+                    // If it's HTTP, upgrade to HTTPS for production compatibility
+                    if (imagePath.startsWith('http://')) {
+                        return imagePath.replace('http://', 'https://');
+                    }
+                    
+                    // If it's a local path, construct full URL (for backward compatibility with old images)
+                    if (imagePath.startsWith('/uploads/')) {
+                        // For local development
+                        if (window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1')) {
+                            return `http://localhost:5000${imagePath}`;
+                        }
+                        // For production, try to serve from backend
+                        return `${window.location.origin}${imagePath}`;
+                    }
+                    
+                    // If it looks like a Cloudinary public_id (no slashes, no extension)
+                    // This shouldn't happen if Cloudinary is working correctly, but handle it
+                    if (!imagePath.includes('/') && !imagePath.includes('.')) {
+                        console.warn('Image path looks like a public_id, but full URL should be stored:', imagePath);
+                        return 'https://via.placeholder.com/600x400?text=Image+Error';
+                    }
+                    
+                    // Unknown format
+                    console.warn('Unknown image path format:', imagePath);
+                    return 'https://via.placeholder.com/600x400?text=No+Image';
+                };
+
+                // Set main image with error handling
+                if (mainImage) {
+                    const imageUrl = getImageUrl(food.images[0]);
+                    console.log('Setting main image URL:', imageUrl);
+                    mainImage.src = imageUrl;
+                    mainImage.alt = food.title || 'Food Image';
+                    mainImage.onerror = function() {
+                        console.error('Failed to load image:', imageUrl);
+                        // Use a proper placeholder service
+                        this.src = 'https://via.placeholder.com/600x400.png?text=Image+Not+Available';
+                    };
+                }
+
+                // Set thumbnails with error handling
+                thumbnails.forEach((thumb, index) => {
+                    let imageUrl;
+                    if (food.images[index + 1]) {
+                        imageUrl = getImageUrl(food.images[index + 1]);
+                    } else if (food.images[0]) {
+                        // Use first image if not enough images
+                        imageUrl = getImageUrl(food.images[0]);
+                    } else {
+                        imageUrl = 'https://via.placeholder.com/150x100.png?text=No+Image';
+                    }
+                    
+                    console.log(`Setting thumbnail ${index + 1} URL:`, imageUrl);
+                    thumb.src = imageUrl;
+                    thumb.alt = food.title || 'Food Image';
+                    thumb.onerror = function() {
+                        console.error('Failed to load thumbnail:', imageUrl);
+                        this.src = 'https://via.placeholder.com/150x100.png?text=No+Image';
+                    };
+                });
+            } else {
+                // No images available - set placeholders
+                const mainImage = document.getElementById('main-image');
+                const thumbnails = document.querySelectorAll('.grid.grid-cols-4 img');
+                
+                if (mainImage) {
+                    mainImage.src = 'https://via.placeholder.com/600x400.png?text=No+Image+Available';
+                }
+                thumbnails.forEach(thumb => {
+                    thumb.src = 'https://via.placeholder.com/150x100.png?text=No+Image';
+                });
+            }
+
+            // Update tags
+            if (food.tags && food.tags.length > 0) {
+                const tagsContainer = document.querySelector('.flex.flex-wrap.gap-2');
+                if (tagsContainer) {
+                    tagsContainer.innerHTML = food.tags.map(tag => 
+                        `<span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm">${tag}</span>`
+                    ).join('');
+                }
+            }
+
+            // Update rating
+            if (food.rating) {
+                const ratingValue = food.rating.average || 0;
+                const reviewCount = food.rating.count || 0;
+                
+                const ratingText = document.querySelector('.ml-2.text-lg.font-semibold');
+                if (ratingText) ratingText.textContent = ratingValue.toFixed(1);
+                
+                const reviewText = document.querySelector('.ml-1.text-gray-600');
+                if (reviewText) reviewText.textContent = `(${reviewCount} reviews)`;
+            }
         }
 
         // Function to show notifications (if not already defined in script.js)
