@@ -464,13 +464,16 @@
                     // Get first image or placeholder
                     let imageUrl = food.images && food.images.length > 0 ? food.images[0] : 'https://via.placeholder.com/400x300?text=No+Image';
                     
-                    // Handle relative image paths
+                    // Handle relative image paths (for backward compatibility with old local uploads)
                     if (imageUrl && imageUrl.startsWith('/uploads/')) {
                         const baseUrl = window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1')
                             ? 'http://localhost:5000'
-                            : '';
+                            : 'https://local-food-backend.onrender.com';
                         imageUrl = baseUrl + imageUrl;
                     }
+                    
+                    // Ensure Cloudinary URLs are used as-is (they should already be full HTTPS URLs)
+                    // No transformation needed for Cloudinary URLs
                     
                     // Format price display
                     const priceDisplay = food.price ? `₹${food.price}` : food.priceRange;
@@ -480,8 +483,10 @@
                     
                     return `
                         <div class="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow" data-food-id="${food._id || 'unknown'}">
-                            <div class="h-48 overflow-hidden">
-                                <img src="${imageUrl}" alt="${food.title || 'Food'}" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/400x300?text=No+Image'">
+                            <div class="h-48 overflow-hidden bg-gray-200">
+                                <img src="${imageUrl}" alt="${food.title || 'Food'}" class="w-full h-full object-cover" 
+                                     onerror="this.onerror=null; this.src='https://via.placeholder.com/400x300?text=No+Image'; this.style.backgroundColor='#f3f4f6';"
+                                     loading="lazy">
                             </div>
                             <div class="p-6">
                                 <div class="flex justify-between items-start mb-3">

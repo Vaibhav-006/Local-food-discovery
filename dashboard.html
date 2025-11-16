@@ -555,14 +555,27 @@
                 }
 
                 foodContainer.innerHTML = userFoods.slice(0, 4).map(food => {
-                    const imageUrl = food.images && food.images.length > 0 ? food.images[0] : 'https://via.placeholder.com/100x100?text=No+Image';
+                    // Get first image or placeholder
+                    let imageUrl = food.images && food.images.length > 0 ? food.images[0] : 'https://via.placeholder.com/100x100?text=No+Image';
+                    
+                    // Handle relative image paths (for backward compatibility with old local uploads)
+                    if (imageUrl && imageUrl.startsWith('/uploads/')) {
+                        const baseUrl = window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1')
+                            ? 'http://localhost:5000'
+                            : 'https://local-food-backend.onrender.com';
+                        imageUrl = baseUrl + imageUrl;
+                    }
+                    
+                    // Cloudinary URLs should already be full HTTPS URLs, use as-is
                     const date = new Date(food.createdAt).toLocaleDateString();
                     const priceDisplay = food.price ? `₹${food.price}` : food.priceRange;
                     
                     return `
                         <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
                             <div class="flex items-start space-x-3">
-                                <img src="${imageUrl}" alt="${food.title}" class="w-16 h-16 rounded-lg object-cover">
+                                <img src="${imageUrl}" alt="${food.title}" class="w-16 h-16 rounded-lg object-cover bg-gray-200"
+                                     onerror="this.onerror=null; this.src='https://via.placeholder.com/100x100?text=No+Image'; this.style.backgroundColor='#f3f4f6';"
+                                     loading="lazy">
                                 <div class="flex-1">
                                     <h5 class="font-medium text-gray-900">${food.title}</h5>
                                     <p class="text-sm text-gray-600">${food.vendorName || 'Unknown Vendor'}</p>

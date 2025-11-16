@@ -647,8 +647,8 @@
                         if (window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1')) {
                             return `http://localhost:5000${imagePath}`;
                         }
-                        // For production, try to serve from backend
-                        return `${window.location.origin}${imagePath}`;
+                        // For production, use the backend URL
+                        return `https://local-food-backend.onrender.com${imagePath}`;
                     }
                     
                     // If it looks like a Cloudinary public_id (no slashes, no extension)
