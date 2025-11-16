@@ -541,7 +541,7 @@
             try {
                 const apiUrl = window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1')
                     ? 'http://localhost:5000/api/foods'
-                    : `${window.location.origin}/api/foods`;
+                    : 'https://local-food-backend.onrender.com/api/foods';
 
                 const response = await fetch(apiUrl);
                 const data = await response.json();
@@ -570,7 +570,7 @@
             try {
                 const apiUrl = window.location.origin.includes('localhost') || window.location.origin.includes('127.0.0.1')
                     ? `http://localhost:5000/api/foods/${foodId}`
-                    : `${window.location.origin}/api/foods/${foodId}`;
+                    : 'https://local-food-backend.onrender.com/api/foods/${foodId}';
 
                 const response = await fetch(apiUrl);
                 const data = await response.json();
